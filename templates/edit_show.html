@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Show</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Edit Show</h2>
+    <form method="post" action="/edit_show{{show.id}}" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="show_name">Show Name</label>
+            <input type="text" class="form-control" id="show_name" name="show_name" value="{{ show.show_name }}"
+                   required>
+        </div>
+        <div class="form-group">
+            <label for="rating">Rating</label>
+            <select class="form-control" id="rating" name="rating" required>
+                <option value="">Select Rating</option>
+                <option value="G" {% if show.rating==
+                'G' %} selected {% endif %}>G</option>
+                <option value="PG" {% if show.rating==
+                'PG' %} selected {% endif %}>PG</option>
+                <option value="PG-13" {% if show.rating==
+                'PG-13' %} selected {% endif %}>PG-13</option>
+                <option value="R" {% if show.rating==
+                'R' %} selected {% endif %}>R</option>
+                <option value="NC-17" {% if show.rating==
+                'NC-17' %} selected {% endif %}>NC-17</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="timing">Timing</label>
+            <input type="datetime-local" class="form-control" id="timing" name="timing" value="{{ show.timing }}"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label for="tags">Genres</label>
+            <select class="form-control" id="tags" name="tags" required>
+                <option value="">Select Genres</option>
+                <option value="Action" {{
+                'selected' if tags == 'Action' else ''}}>Action</option>
+                <option value="Adventure" {{
+                'selected' if tags == 'Adventure' else ''}}>Adventure</option>
+                <option value="Horror" {{
+                'selected' if tags == 'Horror' else ''}}>Horror</option>
+                <option value="Drama" {{
+                'selected' if tags == 'Drama' else ''}}>Drama</option>
+                <option value="Animation" {{
+                'selected' if tags == 'Animation' else ''}}>Animation</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="price">Price</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">₹</span>
+                </div>
+                <input type="number" class="form-control" id="price" name="price"
+                       value="{{ show.price }}" {% if show.venues.name == "PVR" or show.venues.name == "Cinepolis" %} min ="200" placeholder="min = 200"{%else%} min ="100" placeholder="min = 100"{%endif%}  step="0.01" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="video_link">YouTube Video Link</label>
+            <input type="url" class="form-control" id="video_link" name="video_link" value="{{show.yt_link}}" required>
+        </div>
+        <div class="form-group">
+            <label for="image">Image</label>
+            <input type="file" class="form-control-file" id="image" name="image" accept="image/*">
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
+</body>
+</html>

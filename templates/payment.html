@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Payment Page</title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<style>
+		body {
+
+			font-size: 1.2rem;
+			padding: 20px;
+		}
+		h1, h3, h4 {
+			margin-bottom: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<img src="/static/{{show.venue_id}}.{{show.show_name}}.jpg" class="img-fluid">
+			</div>
+			<div class="col-md-6">
+				<h1>Payment Details</h1>
+				<hr>
+				<h5>Show Name: {{show.show_name}}</h5>
+				<h5 class ="badge badge-danger">Timing: {{show.timing}}</h5>
+				<h5 class="text-info">Venue: {{show.venues.name}}</h5>
+				<h5>Number of tickets: {{total}}</h5>
+				<h5 class="text-muted">Price per ticket: {{show.price}}</h5>
+				<hr>
+				<h5 class=" bg-light">Total ={{total_value}}</h5>
+				<form action="/user_shows" method="get" class="my-4">
+					<input type="submit" class="btn btn-warning" value ="Pay Now">
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

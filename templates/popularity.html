@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Popularity of shows and venues</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+
+
+        <a class="nav-link active" aria-current="page" href="{{url_for('admin',id =current_user.id)}}">⬅</a>
+
+      <a class="navbar-brand" href="#">Popularity of shows and venues</a>
+    </nav>
+    <div class="container my-5">
+        <h1 class="text-center mb-5">Popularity of shows and venues</h1>
+        {% if filename1 and filename2 %}
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-10 col-sm-12">
+                    <img src="{{ url_for('static', filename=filename1) }}" alt="Popularity chart for venues" class="img-fluid">
+                    <a href="{{ url_for('static', filename=filename1) }}" download class ="btn btn-dark">Download</a>
+                    <a href="{{ url_for('static', filename="venue_popularity.csv") }}" download class ="btn btn-success">Download CSV</a>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-10 col-sm-12">
+                    <img src="{{ url_for('static', filename=filename2) }}" alt="Popularity chart for shows" class="img-fluid">
+                    <a href="{{ url_for('static', filename=filename2) }}" download class ="btn btn-dark">Download</a>
+                    <a href="{{ url_for('static', filename="show_popularity.csv") }}" download class ="btn btn-success">Download CSV</a>
+                </div>
+            </div>
+        {% else %}
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-10 col-sm-12">
+                    <div class="alert alert-warning" role="alert">
+                      No shows found.
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/XvoGlzIwaANTXk/" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

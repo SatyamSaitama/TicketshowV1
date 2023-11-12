@@ -1,0 +1,40 @@
+              <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary" type="button" id="decrement">-</button>
+              </div>
+              <input type="text" class="form-control text-center" id="quantity" name="quantity" value="1" readonly>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="increment">+</button>
+              </div>
+            </div>
+
+          </div>
+                    <script>
+  // Get the quantity input element and the increment/decrement buttons
+  const quantityInput = document.getElementById('quantity');
+  const incrementButton = document.getElementById('increment');
+  const decrementButton = document.getElementById('decrement');
+
+  // Set the minimum and maximum quantity values
+  const minQuantity = 1;
+  const maxQuantity = {{show.seat_available.available_seats}};
+
+  // Add event listeners for the increment and decrement buttons
+  incrementButton.addEventListener('click', () => {
+    let quantity = parseInt(quantityInput.value);
+    if (quantity < maxQuantity) {
+      quantity++;
+      quantityInput.value = quantity.toString();
+    }
+  });
+
+  decrementButton.addEventListener('click', () => {
+    let quantity = parseInt(quantityInput.value);
+    if (quantity > minQuantity) {
+      quantity--;
+      quantityInput.value = quantity.toString();
+    }
+  });
+</script

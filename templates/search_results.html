@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+</head>
+<body>
+<ul class="nav nav-tabs  bg-transparent">
+
+    <li class="nav-item">
+        {%if current_user.is_authenticated%}
+
+        <a class="nav-link active" aria-current="page" href="/user/{{current_user.id}}">Home</a>
+        {%else%}
+        <a class="nav-link active" aria-current="page" href="/">Home</a>
+        {%endif%}
+    </li>
+    {%if current_user.is_authenticated%}
+    <li class="nav-item">
+        <a class="nav-link" href ="/user_shows">MY-Shows</a>
+    </li>
+{%endif%}
+    <li class="nav-item">
+        <form method="post" action="/search">
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="search" class="form-control" placeholder="search" name="search">
+                    <div class="input-group-append">
+                        <button class="btn btn-danger" type="submit">Q</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </li>
+    {%if current_user.is_authenticated%}
+    <li class="nav-item">
+        <div class="dropdown-menu dropdown-menu-right" id="filter">
+            <a class="dropdown-item" href="/user_shows">My Orders</a>
+            <a class="dropdown-item" href="#">Settings</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/logout">Logout</a>
+        </div>
+    </li>
+    <li class="nav-item ml-auto dropdown">
+
+        <img src="/static/favicon-32x32.png" alt="Profile Image" width="32" height="32" data-toggle="dropdown"
+             style="cursor: pointer;">
+
+        <div class="dropdown-menu dropdown-menu-right" id="profile-dropdown">
+            <a class="dropdown-item" href="/user_shows">My Orders</a>
+            <a class="dropdown-item" href="#">Settings</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/logout">Logout</a>
+        </div>
+    </li>
+
+{%else%}
+    <li class="nav-item ml-auto">
+            <button class="nav-link"  data-toggle="dropdown">Login</button>
+
+  <div class="dropdown-menu dropdown-menu-right" id="profile-dropdown">
+    <a class="dropdown-item" href="/login">Login as User</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="/admin_login">Host as Admin</a>
+  </div>
+{%endif%}
+</ul>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header h5">
+                    Filter-BY
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('search') }}">
+                        <label for="tags" class ="h6">Tags:</label>
+                        <br>
+                        <input type="checkbox" id="adventure" name="tags" value="adventure">
+                        <label for="adventure">Adventure</label>
+                        <br>
+                        <input type="checkbox" id="horror" name="tags" value="horror">
+                        <label for="horror">Horror</label>
+                        <br>
+                        <input type="checkbox" id="romance" name="tags" value="romance">
+                        <label for="romance">Romance</label>
+                        <br>
+                        <input type="checkbox" id="drama" name="tags" value="drama">
+                        <label for="drama">Drama</label>
+                        <br>
+                        <input type="checkbox" id="animation" name="tags" value="animation">
+                        <label for="animation">Animation</label>
+                        <br>
+                        <br>
+                        <label for="location" class="h6">location:</label>
+                        <br>
+                        {% for v in v_location %}
+                        <input type="checkbox" id="{{ v}}" name="location" value="{{ v}}">
+                        <label for="{{ v }}" >{{ v}}</label>
+                        <br>
+                        {% endfor %}
+                        <br>
+                        <label for="venue" class ="h6">Venue:</label>
+                        <br>
+                        {% for v in venues %}
+                        <input type="checkbox" id="{{ v.id }}" name="venue" value="{{ v.id }}">
+                        <label for="{{ v.id }}">{{ v.name }}</label>
+                        <br>
+                        {% endfor %}
+                        <br>
+
+                        <label for="rating" class ="h6">Rating:</label>
+                        <br>
+                        <input type="checkbox" id="pg-13" name="rating" value="pg-13">
+                        <label for="pg-13">PG-13</label>
+                        <br>
+                        <input type="checkbox" id="r" name="rating" value="r">
+                        <label for="r">R</label>
+                        <br>
+                        <input type="checkbox" id="nc-17" name="rating" value="nc-17">
+                        <label for="nc-17">NC-17</label>
+                        <br>
+                        <br>
+
+                        <input type="submit" value="Filter" class="btn btn-primary">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header h5">
+                    Results
+                </div>
+                <div class="card-body">
+                    <div class="container">
+                        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5">
+                            {% for show in results %}
+      <div class="col-md-4 mb-4">
+            <div class="card">
+                <a href="/book/{{show.id}}" style="color: inherit;">
+                    <img src="/static/{{show.venue_id}}.{{show.show_name}}.jpg" class="card-img-top"
+                         alt="{{show.show_name}}" style="height: 200px; object-fit: cover;">
+                </a>
+                <div class="card-body">
+                    <h6 class ="text-right">{{ratings[show.id]}}⭐</h6>
+
+                    <h5 class="card-title">
+                        <a href="/book/{{show.id}}" style="color: black; text-decoration: none;"
+                           onmouseover="this.style.color='purple'"
+                           onmouseout="this.style.color='black'">{{show.show_name}}</a>
+                    </h5>
+
+<h6 ><b>Venue: {{show.venues.name}}</b></h6>
+                    <h6 class="text-danger">Timing: {{show.timing}}</h6>
+                </div>
+            </div>
+        </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap JavaScript scripts -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create a new venue</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h1>Create a new venue</h1>
+            <form method="post" action="/venue">
+                <div class="form-group">
+                    <label for="venue">Venue:</label>
+                    <input class="form-control form-control-lg" type="text" id="venue" name="venue" placeholder="Enter venue name" required>
+                </div>
+                <div class="form-group">
+                    <label for="place">Place:</label>
+                    <input class="form-control form-control-lg" type="text" id="place" name="place" placeholder="Enter place" required>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location:</label>
+                    <input class="form-control form-control-lg" type="text" id="location" name="location" placeholder="Enter location" required>
+                </div>
+                <div class="form-group">
+                    <label for="capacity">Capacity:</label>
+                    <input class="form-control form-control-lg" type="number" id="capacity" name="capacity" placeholder="Enter capacity" required>
+                </div>
+                <input type="submit" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

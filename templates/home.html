@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+      <link href="https://fonts.googleapis.com/css?family=Lily+Script+One&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="static/favicon-32x32.png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+    <style>
+    h5,#myCarousel{
+  font-family: 'Lily Script One', cursive;
+}
+   .input-group-append {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
+
+      @media (max-width: 992px) {
+        .row-cols-lg-5 {
+          --bs-gutter-x: 1rem;
+          display: flex;
+          flex-wrap: wrap;
+          margin-top: calc(var(--bs-gutter-y) * -1);
+          margin-right: calc(var(--bs-gutter-x) / -2);
+          margin-left: calc(var(--bs-gutter-x) / -2);
+        }
+
+        .col {
+          flex: 0 0 50%;
+          max-width: 50%;
+          padding-right: calc(var(--bs-gutter-x) / 2);
+          padding-left: calc(var(--bs-gutter-x) / 2);
+          margin-top: var(--bs-gutter-y);
+        }
+      }
+
+    </style>
+    <style>
+  @media (max-width: 992px) {
+    .row-cols-lg-5 {
+      --bs-gutter-x: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: calc(var(--bs-gutter-y) * -1);
+      margin-right: calc(var(--bs-gutter-x) / -2);
+      margin-left: calc(var(--bs-gutter-x) / -2);
+    }
+    .col {
+      flex: 0 0 50%;
+      max-width: 50%;
+      padding-right: calc(var(--bs-gutter-x) / 2);
+      padding-left: calc(var(--bs-gutter-x) / 2);
+      margin-top: var(--bs-gutter-y);
+    }
+  }
+  @media (min-width: 1200px) {
+    .row-cols-lg-5 .col {
+      flex: 0 0 20%;
+      max-width: 20%;
+    }
+    .carousel-inner .item img {
+  height: 300px; /* Set the desired height here */
+  object-fit: cover; /* Make the image cover the entire container */
+}
+
+  }
+
+    </style>
+
+</head>
+<body>
+<ul class="nav nav-tabs  bg-transparent">
+
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="#">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/search">Browse</a>
+    </li>
+
+<li class="nav-item">
+    <a class="nav-link" href="#">   </a>
+    </li>
+<li class="nav-item" style="margin-top: 5px;">
+        <form method="post" action="/search">
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="search" class="form-control" placeholder="search" name="search">
+                    <div class="input-group-append">
+                        <button class="btn " type="submit"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </li>
+        <li class="nav-item ml-auto" style="margin-top: 5px;margin-right: 7px">
+            <button class=" btn btn-danger"  data-toggle="dropdown" >Login</button>
+
+  <div class="dropdown-menu dropdown-menu-right" id="profile-dropdown">
+    <a class="dropdown-item" href="/login">Login as User</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="/admin_login">Host as Admin</a>
+  </div>
+
+
+</ul>
+<br>
+
+<div class="container">
+          <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      {% for show in shows|sort(attribute='seat_available.available_seats', reverse=True)%}
+          <li data-target="#myCarousel" data-slide-to="{{ loop.index0 }}" {% if loop.first %}class="active"{% endif %}></li>
+      {% endfor %}
+    </ol>
+<div class="row">
+            <div class="col-6">
+                <h3 class="mb-3"> </h3>
+            </div>
+            <div class="col-6 text-right">
+                <a class="btn btn-danger mb-3 mr-1" href="#myCarousel" role="button" data-slide="prev">
+                    <i class="fa fa-arrow-left"></i>
+                </a>
+                <a class="btn btn-primary mb-3 " href="#myCarousel" role="button" data-slide="next">
+                    <i class="fa fa-arrow-right"></i>
+                </a>
+            </div>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+      {% for show in shows|sort(attribute='seat_available.available_seats', reverse=True)%}
+          <div class="item {% if loop.first %}active{% endif %}">
+            <img src="/static/{{ show.venue_id }}.{{ show.show_name }}.jpg" alt="{{ show.show_name }}">
+            <div class="carousel-caption text-right">
+  <h3 style="text-align: right; font-size: 24px; color:black;">{{show.show_name}}</h3>
+<p style="text-align: right; font-size: 16px; color: black; ">{{show.venues.name}}</p>
+
+  <a href="/book/{{ show.id }}" class="btn btn-danger btn-sm" style="float:right;">Book Now</a>
+</div>
+          </div>
+      {% endfor %}
+    </div>
+
+
+
+  </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+    <h1> Latest Shows</h1>
+<br>
+      <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5">
+        {% for show in shows|sort(attribute='id', reverse=True)  %}
+        <div class="col mb-4">
+            <div class="card">
+                <a href="/book/{{show.id}}" style="color: inherit;">
+                    <img src="/static/{{show.venue_id}}.{{show.show_name}}.jpg" class="card-img-top"
+                         alt="{{show.show_name}}" style="height: 200px; object-fit: cover;">
+                </a>
+                <div class="card-body">
+                    <h6 class ="text-right">{{ratings[show.id]}}⭐</h6>
+
+                    <h5 class="card-title">
+                        <a href="/book/{{show.id}}" style="color: black; text-decoration: none;"
+                           onmouseover="this.style.color='purple'"
+                           onmouseout="this.style.color='black'">{{show.show_name}}</a>
+                    </h5>
+                    <h6 class="text-muted"><b>Venue: {{show.venues.name}},{{show.venues.location}}</b></h6>
+                    <h6 class="text-danger">Timing: {{show.timing}}</h6>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+      </div></div>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

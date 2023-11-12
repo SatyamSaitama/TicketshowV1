@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<ul class="nav nav-tabs ">
+    <li class="nav-item">
+        {%if current_user.is_authenticated%}
+
+        <a class="nav-link active" aria-current="page" href="/user/{{current_user.id}}">Home</a>
+        {%else%}
+        <a class="nav-link active" aria-current="page" href="/">Home</a>
+        {%endif%}
+    </li>
+
+    <li class="nav-item">
+        {%if current_user.is_authenticated%}
+        <a class="nav-link" href="/user_shows">MY-Shows</a>
+
+
+    </li>
+    <li class="nav-item ml-auto">
+        <a class="nav-link" href="/logout">Logout</a>
+    </li>{%endif%}
+</ul>
+<div class="container my-5">
+    <div class="row">
+       <div class="col-md-6">
+  {% set video_id = show.yt_link.split("?v=")[1] %}
+ <a href="#" data-toggle="modal" data-target="#videoModal" class="position-relative">
+    <img src="/static/{{show.venue_id}}.{{show.show_name}}.jpg" alt="{{show.show_name}}" class="img-fluid">
+
+ </a>
+           <br>
+           <br>
+            <a href="#" data-toggle="modal" data-target="#videoModal" class="position-relative">
+
+ <div class=""><button class="btn btn btn-outline-danger " >Play</button> </div></a>
+  <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="videoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="videoModalLabel">{{show.show_name}} Video</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="embed-responsive embed-responsive-16by9">
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/{{video_id}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+        <div class="col-md-6">
+            <h1>{{show.show_name}}</h1>
+                                <h6 class ="text-right">{{ratings[show.id]}}⭐</h6>
+
+            <p><strong>VENUE: </strong>{{show.venues.name}}</p>
+            <p><strong>Place: </strong>{{show.venues.place}}</p>
+            <p><strong>Location: </strong>{{show.venues.location}}</p>
+            <p><strong>Capacity: </strong>{{show.venues.capacity}}</p>
+            <p><strong>Available: </strong>{{show.seat_available.available_seats}}</p>
+            <p class="badge badge-danger"><strong >Timing: </strong>{{show.timing}}</p>
+            <p><strong>Genre: </strong>{{show.tags}}</p>
+            <p><strong>Rating: </strong>{{show.rating}}</p>
+            <p><strong>Price: </strong>{{show.price}}</p>
+
+{% if time < show_time %}
+            {%if show.seat_available.available_seats >0%}
+            <form method="post" action="/book/{{show.id}}" class=form-group>
+                    <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary" type="button" id="decrement">-</button>
+              </div>
+              <input type="text" class="form-control text-center" id="quantity" name="quantity" value="1" readonly>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="increment">+</button>
+              </div>
+            </div>
+
+          </div>
+                    <script>
+  // Get the quantity input element and the increment/decrement buttons
+  const quantityInput = document.getElementById('quantity');
+  const incrementButton = document.getElementById('increment');
+  const decrementButton = document.getElementById('decrement');
+
+  // Set the minimum and maximum quantity values
+  const minQuantity = 1;
+  const maxQuantity = {{show.seat_available.available_seats}};
+
+  // Add event listeners for the increment and decrement buttons
+  incrementButton.addEventListener('click', () => {
+    let quantity = parseInt(quantityInput.value);
+    if (quantity < maxQuantity) {
+      quantity++;
+      quantityInput.value = quantity.toString();
+    }
+  });
+
+  decrementButton.addEventListener('click', () => {
+    let quantity = parseInt(quantityInput.value);
+    if (quantity > minQuantity) {
+      quantity--;
+      quantityInput.value = quantity.toString();
+    }
+  });
+</script>
+
+                <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#myModal">
+                    Book Now
+                </button>
+                <div class="modal fade" id="myModal">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <!-- Modal header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Confirm booking</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <h5 class=" badge badge-danger">Timing: {{show.timing}}</h5>
+                                <h6>Show Name: {{show.show_name}}</h6>
+                                <h6>Venue: {{show.venues.name}}</h6>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+
+
+                                <button type="submit" class="btn btn-info">Confirm Booking</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+            {%else%}
+            {%if current_user.is_authenticated%}
+            <a href='/user/{{current_user.id}}'>
+                <button class="btn btn-danger my-3">houseful</button>
+            </a>
+            {%else%}
+            <a href='/'>
+                <button class="btn btn-danger my-3">houseful</button>
+            </a>
+            {% endif%}
+            {% endif%}
+{%endif%}
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+
+</html>

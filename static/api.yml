@@ -1,0 +1,273 @@
+swagger: '2.0'
+info:
+  title: Venue-Shows[CRUD]
+  description: API for managing venues and shows
+  version: '1.0'
+paths:
+  /api/venues:
+    get:
+      summary: Get a list of all venues
+      responses:
+        '200':
+          description: A list of venues
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Venue'
+    post:
+      summary: Create a new venue
+      parameters:
+        - in: body
+          name: body
+          description: Venue object
+          required: true
+          schema:
+            $ref: '#/definitions/NewVenue'
+      responses:
+        '201':
+          description: Created venue
+          schema:
+            $ref: '#/definitions/Venue'
+  /api/venues/{id}:
+    get:
+      summary: Get a venue by ID
+      parameters:
+        - name: id
+          in: path
+          description: Venue ID
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: The venue with the specified ID
+          schema:
+            $ref: '#/definitions/Venue'
+        '404':
+          description: Venue not found
+    put:
+      summary: Update a venue by ID
+      parameters:
+        - name: id
+          in: path
+          description: Venue ID
+          required: true
+          type: integer
+        - in: body
+          name: body
+          description: Updated venue object
+          required: true
+          schema:
+            $ref: '#/definitions/NewVenue'
+      responses:
+        '200':
+          description: Updated venue
+          schema:
+            $ref: '#/definitions/Venue'
+        '404':
+          description: Venue not found
+    delete:
+      summary: Delete a venue by ID
+      parameters:
+        - name: id
+          in: path
+          description: Venue ID
+          required: true
+          type: integer
+      responses:
+        '204':
+          description: Venue deleted
+        '404':
+          description: Venue not found
+  /api/shows:
+    get:
+      summary: Get a list of all shows
+      responses:
+        '200':
+          description: A list of Shows
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Shows'
+    post:
+      summary: Create a new show
+      parameters:
+        - in: body
+          name: body
+          description: Show object
+          required: true
+          schema:
+            $ref: '#/definitions/NewShows'
+      responses:
+        '201':
+          description: Created show
+          schema:
+            $ref: '#/definitions/Shows'
+  /api/shows/{id}:
+    get:
+      summary: Get a Show by ID
+      parameters:
+        - name: id
+          in: path
+          description: Show ID
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: The show with the specified ID
+          schema:
+            $ref: '#/definitions/Shows'
+        '404':
+          description: Show not found
+    put:
+      summary: Update a show by ID
+      parameters:
+        - name: id
+          in: path
+          description: SHOW ID
+          required: true
+          type: integer
+        - in: body
+          name: body
+          description: Updated show object
+          required: true
+          schema:
+            $ref: '#/definitions/Shows'
+      responses:
+        '200':
+          description: Updated show
+          schema:
+            $ref: '#/definitions/Shows'
+        '404':
+          description: Show not found
+    delete:
+      summary: Delete a show by ID
+      parameters:
+        - name: id
+          in: path
+          description: Show ID
+          required: true
+          type: integer
+      responses:
+        '204':
+          description: Show deleted
+        '404':
+          description: Show not found
+
+definitions:
+  Venue:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: The ID of the venue
+      name:
+        type: string
+        description: The name of the venue
+      place:
+        type: string
+        description: The place where the venue is located
+      location:
+        type: string
+        description: The location of the venue
+      capacity:
+        type: integer
+        description: The capacity of the venue
+    required:
+      - id
+      - name
+      - place
+      - location
+      - capacity
+  NewVenue:
+    type: object
+    properties:
+      name:
+        type: string
+        description: The name of the venue
+      place:
+        type: string
+        description: The place where the venue is located
+      location:
+        type: string
+        description: The location of the venue
+      capacity:
+        type: integer
+        description: The capacity of the venue
+    required:
+      - name
+      - place
+      - location
+      - capacity
+  Shows:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: The ID of the Show
+      show_name:
+        type: string
+        description: The name of the Show
+      rating:
+        type: string
+        description: Rating of the show (pg-13,R etc)
+      timing:
+        type: string
+        format: date-time
+        description: The timing of the show in ISO 8601 date-time format
+
+      tags:
+        type: string
+        description: Tags(Adventure,Comedy etc)
+      yt_link:
+        type: string
+        description: Youtube Links
+      price:
+        type: integer
+        description: The price for the show
+      venue_id:
+        type: integer
+        description: The id of Venue
+    required:
+      - id
+      - show_name
+      - tags
+      - price
+      - yt_link
+      - venue_id
+  NewShows:
+    type: object
+    properties:
+
+      show_name:
+        type: string
+        description: The name of the Show
+      rating:
+        type: string
+        description: Rating of the show (pg-13,R etc)
+      yt_link:
+        type: string
+        description: Youtube Links
+      timing:
+        type: string
+        format: date-time
+        description: The timing of the show in ISO 8601 date-time format
+
+      tags:
+        type: string
+        description: Tags(Adventure,Comedy etc)
+
+      price:
+        type: integer
+        description: The price for the show
+      id:
+        type: integer
+        description: The id of Venue
+    required:
+      - yt_link
+      - show_name
+      - rating
+      - timing
+      - tags
+      - price
+      - id
+
