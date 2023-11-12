@@ -6,7 +6,7 @@ This project allows hosts to manage shows and venues, and users to book tickets.
 
 ## Author
 
-- Satyam Kumar [21f2000243@ds.study.iitm.ac.in]
+- Satyam Kumar 
 
 
 ### Installation
